@@ -6,9 +6,9 @@ import 'dart:typed_data';
 
 import 'package:time_machine/src/time_machine_internal.dart';
 
-import 'dart:io' as io;
+//import 'dart:io' as io;
 
-class MemoryStream implements io.IOSink {
+class MemoryStream /*implements io.IOSink*/ {
   final List<int> buffer = [];
   int _position = 0;
 
@@ -91,31 +91,31 @@ class BinaryWriter {
   int _offset;
   int _bank;
 
-  final io.IOSink _sink;
+//  final io.IOSink _sink;
 
   // bool get isMore => _offset < _binary.lengthInBytes;
 
-  BinaryWriter(this._sink) {
-    _binary = _binary0;
-    _bank = 0;
-  }
+//  BinaryWriter(this._sink) {
+//    _binary = _binary0;
+//    _bank = 0;
+//  }
 
   factory BinaryWriter.fromFile(String path) {
-    var file = new io.File(path);
-    return BinaryWriter(file.openWrite());
+//    var file = new io.File(path);
+//    return BinaryWriter(file.openWrite());
   }
 
   Future close() async {
-    await _sink.flush();
-    await _sink.close();
+//    await _sink.flush();
+//    await _sink.close();
   }
 
   void _advance(int byteCount) {
     _offset += byteCount;
     if (byteCount > _bufferFlush) {
-      _sink.add(_binary.buffer.asUint8List(0, _offset));
+//      _sink.add(_binary.buffer.asUint8List(0, _offset));
       // todo: do we need to do this?
-      _sink.flush();
+//      _sink.flush();
     }
 
     _offset = 0;

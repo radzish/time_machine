@@ -3,30 +3,33 @@
 // Use of this source code is governed by the Apache License 2.0, as found in the LICENSE.txt file.
 
 import 'dart:async';
+import 'dart:html';
 import 'dart:typed_data';
 import 'dart:convert';
 import 'dart:js';
+import 'package:http/http.dart' as http;
 
-import 'package:resource/resource.dart';
 import 'package:time_machine/src/time_machine_internal.dart';
 
 import 'platform_io.dart';
 
 class _WebMachineIO implements PlatformIO {
+  static const String dataPrefix = "https://raw.githubusercontent.com/radzish/time_machine/master/lib/data/";
+
   @override
   Future<ByteData> getBinary(String path, String filename) async {
     if (filename == null) return new ByteData(0);
 
-    var resource = new Resource("packages/time_machine/data/$path/$filename");
-    // todo: probably a better way to do this
-    var binary = new ByteData.view(new Int8List.fromList(await resource.readAsBytes()).buffer);
+    var resource =  (await http.get("$dataPrefix$path/$filename")).bodyBytes;
+
+    var binary = new ByteData.view(new Int8List.fromList(await resource).buffer);
     return binary;
   }
 
   @override
   Future/**<Map<String, dynamic>>*/ getJson(String path, String filename) async {
-    var resource = new Resource("packages/time_machine/data/$path/$filename");
-    return json.decode(await resource.readAsString());
+    var resource =  (await http.get("$dataPrefix$path/$filename")).body;
+    return json.decode(resource);
   }
 }
 

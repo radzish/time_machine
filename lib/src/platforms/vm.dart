@@ -8,7 +8,6 @@ import 'dart:convert';
 import 'dart:io' as io;
 
 import 'dart:typed_data';
-import 'package:resource/resource.dart';
 import 'package:time_machine/src/time_machine_internal.dart';
 
 import 'platform_io.dart';
@@ -19,6 +18,7 @@ class _VirtualMachineIO implements PlatformIO {
     if (filename == null) return new ByteData(0);
 
     var resource = new Resource("package:time_machine/data/$path/$filename");
+
     // todo: probably a better way to do this
     var binary = new ByteData.view(new Int8List.fromList(await resource.readAsBytes()).buffer);
     return binary;
