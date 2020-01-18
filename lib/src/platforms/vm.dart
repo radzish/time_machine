@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io' as io;
+import 'package:http/http.dart' as http;
 
 import 'dart:typed_data';
 import 'package:time_machine/src/time_machine_internal.dart';
@@ -13,22 +14,22 @@ import 'package:time_machine/src/time_machine_internal.dart';
 import 'platform_io.dart';
 
 class _VirtualMachineIO implements PlatformIO {
+  static const String dataPrefix = "https://raw.githubusercontent.com/radzish/time_machine/master/lib/data/";
+
   @override
   Future<ByteData> getBinary(String path, String filename) async {
     if (filename == null) return new ByteData(0);
 
-    var resource = new Resource("package:time_machine/data/$path/$filename");
+    var resource =  (await http.get("$dataPrefix$path/$filename")).bodyBytes;
 
-    // todo: probably a better way to do this
-    var binary = new ByteData.view(new Int8List.fromList(await resource.readAsBytes()).buffer);
+    var binary = new ByteData.view(new Int8List.fromList(await resource).buffer);
     return binary;
   }
 
   @override
-  // may return Map<String, dynamic> or List
-  Future getJson(String path, String filename) async {
-    var resource = new Resource("package:time_machine/data/$path/$filename");
-    return json.decode(await resource.readAsString());
+  Future/**<Map<String, dynamic>>*/ getJson(String path, String filename) async {
+    var resource =  (await http.get("$dataPrefix$path/$filename")).body;
+    return json.decode(resource);
   }
 }
 
