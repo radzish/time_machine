@@ -14,7 +14,7 @@ import 'package:time_machine/src/time_machine_internal.dart';
 import 'platform_io.dart';
 
 class _VirtualMachineIO implements PlatformIO {
-  static const String dataPrefix = "/tz-data/";
+  static const String dataPrefix = "https://raw.githubusercontent.com/radzish/time_machine/master/lib/data/";
 
   @override
   Future<ByteData> getBinary(String path, String filename) async {
