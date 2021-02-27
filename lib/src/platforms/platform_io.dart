@@ -5,6 +5,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:meta/meta.dart';
 import 'package:time_machine/src/time_machine_internal.dart';
 
 /// This class packages platform specific input-output functions that are initialized by the appropriate Platform Provider

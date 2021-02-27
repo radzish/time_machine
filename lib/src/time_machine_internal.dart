@@ -60,17 +60,6 @@ class _Internal{
   const _Internal();
 }
 
-/// Any accessible function marked with this annotation should not be considered part of the public API.
-///
-/// This is a placeholder annotation so we know where all the internal only code is, so we can work out a possible strategy in the future.
-/// We may be able to restructure the library when it's more mature to remedy this situation.
-/// The only 'easy' tool provided in the dart ecosystem is `part/part of` keywords and their usage has been discouraged with possible removal in the future.
-///
-/// What I might do is just separate the classes into a public facing interface only classes and a set of
-/// implementation classes (much like a lot to the io\stream classes).
-/// src/public ~ src/internal ~ or I could just do one large public file with all the classes
-const Object internal = const _Internal();
-
 /// This was internal in Noda Time, but I'm considering keeping it public in Time Machine
 const Object wasInternal = const _Internal();
 
